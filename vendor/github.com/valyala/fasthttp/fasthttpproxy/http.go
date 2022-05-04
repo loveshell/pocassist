@@ -22,7 +22,7 @@ func FasthttpHTTPDialer(proxy string) fasthttp.DialFunc {
 	return FasthttpHTTPDialerTimeout(proxy, 0)
 }
 
-// FasthttpHTTPDialer returns a fasthttp.DialFunc that dials using
+// FasthttpHTTPDialerTimeout returns a fasthttp.DialFunc that dials using
 // the provided HTTP proxy using the given timeout.
 //
 // Example usage:
@@ -49,7 +49,7 @@ func FasthttpHTTPDialerTimeout(proxy string, timeout time.Duration) fasthttp.Dia
 			return nil, err
 		}
 
-		req := "CONNECT " + addr + " HTTP/1.1\r\n"
+		req := fmt.Sprintf("CONNECT %s HTTP/1.1\r\nHost: %s\r\n", addr, addr)
 		if auth != "" {
 			req += "Proxy-Authorization: Basic " + auth + "\r\n"
 		}

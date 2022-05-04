@@ -14,6 +14,12 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+const (
+	httpsScheme = "https"
+	httpScheme  = "http"
+	tlsPort     = "443"
+)
+
 // FasthttpProxyHTTPDialer returns a fasthttp.DialFunc that dials using
 // the the env(HTTP_PROXY, HTTPS_PROXY and NO_PROXY) configured HTTP proxy.
 //
@@ -32,13 +38,6 @@ func FasthttpProxyHTTPDialer() fasthttp.DialFunc {
 //	c := &fasthttp.Client{
 //		Dial: FasthttpProxyHTTPDialerTimeout(time.Second * 2),
 //	}
-
-const (
-	httpsScheme = "https"
-	httpScheme  = "http"
-	tlsPort     = "443"
-)
-
 func FasthttpProxyHTTPDialerTimeout(timeout time.Duration) fasthttp.DialFunc {
 	proxier := httpproxy.FromEnvironment().ProxyFunc()
 
@@ -50,7 +49,7 @@ func FasthttpProxyHTTPDialerTimeout(timeout time.Duration) fasthttp.DialFunc {
 
 		port, _, err := net.SplitHostPort(addr)
 		if err != nil {
-			return nil, fmt.Errorf("unexpected addr format: %v", err)
+			return nil, fmt.Errorf("unexpected addr format: %w", err)
 		}
 
 		reqURL := &url.URL{Host: addr, Scheme: httpScheme}
@@ -109,14 +108,14 @@ func FasthttpProxyHTTPDialerTimeout(timeout time.Duration) fasthttp.DialFunc {
 
 		if err := res.Read(bufio.NewReader(conn)); err != nil {
 			if connErr := conn.Close(); connErr != nil {
-				return nil, fmt.Errorf("conn close err %v followed by read conn err %v", connErr, err)
+				return nil, fmt.Errorf("conn close err %v precede by read conn err %w", connErr, err)
 			}
 			return nil, err
 		}
 		if res.Header.StatusCode() != 200 {
 			if connErr := conn.Close(); connErr != nil {
 				return nil, fmt.Errorf(
-					"conn close err %v followed by connect to proxy: code: %d body %s",
+					"conn close err %w precede by connect to proxy: code: %d body %s",
 					connErr, res.StatusCode(), string(res.Body()))
 			}
 			return nil, fmt.Errorf("could not connect to proxy: code: %d body %s", res.StatusCode(), string(res.Body()))

@@ -6,7 +6,7 @@ require (
 	github.com/astaxie/beego v1.12.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/elazarl/go-bindata-assetfs v1.0.1
-	github.com/gin-gonic/gin v1.7.1
+	github.com/gin-gonic/gin v1.7.7
 	github.com/golang/protobuf v1.5.0
 	github.com/google/cel-go v0.7.3
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible

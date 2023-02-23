@@ -21,8 +21,7 @@ require (
 	github.com/urfave/cli/v2 v2.3.0
 	github.com/valyala/fasthttp v1.23.0
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
-	golang.org/x/sys v0.0.0-20210421221651-33663a62ff08 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4
 	google.golang.org/genproto v0.0.0-20201102152239-715cce707fb0
 	google.golang.org/protobuf v1.26.0
